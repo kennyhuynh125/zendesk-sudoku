@@ -48,8 +48,7 @@ class Board extends React.Component {
 	}
 
 	//populates the entire board with the correct solution.
-	solve() {
-		
+	solve() {		
 		this.setState({
 			board:  [
 			[5,3,4,6,7,8,9,1,2],
@@ -61,118 +60,7 @@ class Board extends React.Component {
 			[9,6,1,5,3,7,2,8,4],
 			[2,8,7,4,1,9,6,3,5],
 			[3,4,5,2,8,6,1,7,9,]],
-		})
-		
-	}
-
-	//checks to see if the board is successfully completed
-	checkBoard() {
-		for(let i = 0; i < 9; i++) {
-			if (this.state.board[i].includes(0)) {
-				alert("Board is not completed yet!");
-				return;
-			}
-		}
-		let correctRows = this.checkRows();
-		let correctCols = this.checkColumns();
-		let correctSquares = []
-		for(let i = 0; i < 9; i+=3) {
-			correctSquares.push(this.checkSquares(i,0))
-			correctSquares.push(this.checkSquares(i,3))
-			correctSquares.push(this.checkSquares(i,6))
-		}
-		if (!correctRows || !correctCols || correctSquares.includes(false)) {
-			alert("Invalid board. A row, column, or square has duplicate digits.");
-			return;
-		}
-		alert("VALID. Congratulations! You have completed the puzzle!");
-		return;
-
-
-	}
-
-	//check to see if the current status of the board is valid or not.
-	check() {
-		let correctRows = this.checkRows();
-		let correctCols = this.checkColumns();
-		let correctSquares = []
-		for(let i = 0; i < 9; i+=3) {
-			correctSquares.push(this.checkSquares(i,0))
-			correctSquares.push(this.checkSquares(i,3))
-			correctSquares.push(this.checkSquares(i,6))
-		}
-		if (!correctRows || !correctCols || correctSquares.includes(false)) {
-			alert("Invalid board. A row, column, or square has duplicate digits.");
-			return;
-		}
-		alert("Current board is valid.")
-		return;
-	}
-
-	//checks each of the rows in the board and determines if there is an invalid row or not.
-	checkRows() {
-		let digitCount = {};
-		for(let i = 0; i < 9; i++) {
-			for(let j = 0; j < 9; j++) {
-				if(this.state.board[i][j] === 0) {
-					continue;
-				}
-				if(this.state.board[i][j] in digitCount) {
-					digitCount[this.state.board[i][j]]++;
-					if(digitCount[this.state.board[i][j]] > 1) {
-						return false;
-					}
-				} else {
-					digitCount[this.state.board[i][j]] = 1;
-				}
-			}
-			digitCount = {};
-		}
-		return true;
-		
-	}
-
-	//checks each of the columns in the board and determines if there is an invalid column or not.
-	checkColumns() {
-		let digitCount = {};
-		for(let i = 0; i < 9; i++) {
-			for(let j = 0; j < 9; j++) {
-				if(this.state.board[j][i] === 0) {
-					continue;
-				}
-				if(this.state.board[j][i] in digitCount) {
-					digitCount[this.state.board[j][i]]++;
-					if(digitCount[this.state.board[j][i]] > 1) {
-						return false;
-					}
-				} else {
-					digitCount[this.state.board[j][i]] = 1;
-				}
-			}
-			digitCount = {};
-		}
-		return true;
-	}
-
-	//checks each 3x3 square and determines if it is valid or not.
-	checkSquares(rowNum, colNum) {
-		let digitCount = {};
-		for(let i = rowNum; i < rowNum + 3; i++) {
-			for(let j = colNum; j < colNum + 3; j++) {
-				if(this.state.board[i][j] === 0) {
-					continue;
-				}
-				if(this.state.board[i][j] in digitCount) {
-					digitCount[this.state.board[i][j]]++;
-					if(digitCount[this.state.board[i][j]] > 1) {
-						return false;
-					}
-				} else {
-					digitCount[this.state.board[i][j]] = 1;
-				}
-			}
-		}
-		return true;
+		});
 	}
 
 	//if user clicks restart, board should go back to state when it was setup
@@ -189,7 +77,113 @@ class Board extends React.Component {
 			[0,0,0,4,1,9,0,0,5],
 			[0,0,0,0,8,0,0,7,9,]]
 		});
+	}
 
+	//checks to see if the board is successfully completed
+	checkBoard() {
+		for( let i = 0; i < 9; i++) {
+			if (this.state.board[i].includes(0)) {
+				alert("Board is not completed yet!");
+				return;
+			}
+		}
+		let correctRows = this.checkRows();
+		let correctCols = this.checkColumns();
+		let correctSquares = [];
+		for (let i = 0; i < 9; i+=3) {
+			correctSquares.push(this.checkSquares(i,0));
+			correctSquares.push(this.checkSquares(i,3));
+			correctSquares.push(this.checkSquares(i,6));
+		}
+		if (!correctRows || !correctCols || correctSquares.includes(false)) {
+			alert("Invalid board. A row, column, or square has duplicate digits.");
+			return;
+		}
+		alert("VALID. Congratulations! You have completed the puzzle!");
+		return;
+	}
+
+	//check to see if the current status of the board is valid or not.
+	check() {
+		let correctRows = this.checkRows();
+		let correctCols = this.checkColumns();
+		let correctSquares = [];
+		for (let i = 0; i < 9; i+=3) {
+			correctSquares.push(this.checkSquares(i,0));
+			correctSquares.push(this.checkSquares(i,3));
+			correctSquares.push(this.checkSquares(i,6));
+		}
+		if (!correctRows || !correctCols || correctSquares.includes(false)) {
+			alert("Invalid board. A row, column, or square has duplicate digits.");
+			return;
+		}
+		alert("Current board is valid.")
+		return;
+	}
+
+	//checks each of the rows in the board and determines if there is an invalid row or not.
+	checkRows() {
+		let digitCount = {};
+		for (let i = 0; i < 9; i++) {
+			for (let j = 0; j < 9; j++) {
+				if (this.state.board[i][j] === 0) {
+					continue;
+				}
+				if (this.state.board[i][j] in digitCount) {
+					digitCount[this.state.board[i][j]]++;
+					if (digitCount[this.state.board[i][j]] > 1) {
+						return false;
+					}
+				} else {
+					digitCount[this.state.board[i][j]] = 1;
+				}
+			}
+			digitCount = {};
+		}
+		return true;
+	}
+
+	//checks each of the columns in the board and determines if there is an invalid column or not.
+	checkColumns() {
+		let digitCount = {};
+		for (let i = 0; i < 9; i++) {
+			for (let j = 0; j < 9; j++) {
+				if (this.state.board[j][i] === 0) {
+					continue;
+				}
+				if (this.state.board[j][i] in digitCount) {
+					digitCount[this.state.board[j][i]]++;
+					if (digitCount[this.state.board[j][i]] > 1) {
+						return false;
+					}
+				} else {
+					digitCount[this.state.board[j][i]] = 1;
+				}
+			}
+			digitCount = {};
+		}
+		return true;
+	}
+
+	//checks each 3x3 square and determines if it is valid or not.
+	checkSquares(rowNum, colNum) {
+		let digitCount = {};
+		for (let i = rowNum; i < rowNum + 3; i++) {
+			for (let j = colNum; j < colNum + 3; j++) {
+				if (this.state.board[i][j] === 0) {
+					continue;
+				}
+				if (this.state.board[i][j] in digitCount) {
+					digitCount[this.state.board[i][j]]++;
+					if (digitCount[this.state.board[i][j]] > 1) {
+						return false;
+					}
+				} else {
+					digitCount[this.state.board[i][j]] = 1;
+				}
+			}
+		}
+		return true;
 	}
 
 	//used to track down when one of the square's value is changed. If it is changed, the array gets updated with the new value.
@@ -202,16 +196,15 @@ class Board extends React.Component {
 		currentBoard[row][col] = value;
 		this.setState({
 			board: currentBoard
-		})
+		});
 		event.preventDefault();
 	}
 
 	//displays the current board
 	displayBoard() {
-		let i;
 		let board = [];
 		//iterate 9 times to get the rows and create the board.
-		for(i = 0; i < 9; i++) {
+		for (let i = 0; i < 9; i++) {
 			board.push(	
 				<div className="flexbox">
 					{this.displayRow(i)}
@@ -221,10 +214,10 @@ class Board extends React.Component {
 		return board;
 	}
 
-	//display inidividual rows for the board
+	//display individual rows for the board
 	displayRow(rowNum) {
 		let squares = [];
-		for(let i = 0; i < 9; i++) {
+		for (let i = 0; i < 9; i++) {
 			//if the value at the current grid location is 0, just leave the input value blank.
 			if (this.state.board[rowNum][i] === 0) {
 				squares.push(<input type="number" min="0" max="9" className='square' value="" onChange={this.handleOnChange} name={"" + rowNum + "," + i}/>);
@@ -260,7 +253,6 @@ class Board extends React.Component {
 		}
 		return buttons;
 	}
-
 
 	render() {
 		return (

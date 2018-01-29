@@ -23,13 +23,19 @@ For simplicity, there is only one board with a single solution.
 
 Each square in the board is an `<input>` element. To keep track of the row number and column number, the `input` elements have an attribute `name` that has the value `rowNum, colNum`. For example, the top-left square has the location (0,0). So the name of the input would be `0,0`. To access the grid location to modify the `board` state, a `handleOnChange(event)` function is used to  fetch the values from the `name` and `value` attribute from the `input` element. Then the row and column number is extracted and the value in the `board` array is updated.
 
+To display the UI, there are three functions:
+
+ - `displayButtons()` - This function displays the buttons depending on whether the user started the game or not. If it did not start, display only the `Start` button. If it did start, display the other buttons.
+ - `displayRow(rowNum)` - This function is used in generating the rows of the board. Each row is populated with nine `input` elements. The `rowNum` parameter is used for determining which row number is being generated.
+ - `displayBoard()`- This function is used in generating the full board. This calls `displayRow(rowNum)` nine times to display the full board.
+
 There are five buttons:
 
- - `Start` - Creates a prefilled sudoku board by populating the `board` state with some values.
- - `Restart` - Resets the board to the state when the user started.
- - `Solve Board` - Modifies the `board` state with the correct solution.
- - `Check Current Board` - Checks the state of the current board to see whether it is valid or invalid. 
- - `Check Whole Board` - Checks to see if the board is completed or not. If it is completed, it determines whether the board is valid or invalid.
+ - `Start` - Uses the `setupBoard()` function and creates a prefilled sudoku board by populating the `board` state with some values.
+ - `Restart` - Uses the `restart()` function that resets the board to the state when the user started.
+ - `Solve Board` - Uses the `solve()` function that modifies the `board` state with the correct solution.
+ - `Check Current Board` - Uses the `check()` function and checks the state of the current board to see whether it is valid or invalid. 
+ - `Check Whole Board` - Uses the `checkBoard()` function and checks to see if the board is completed or not. If it is completed, it determines whether the board is valid or invalid.
 
 To determine if a board is valid or invalid, we check each row, column, and 3x3 square and see if there are any duplicate digits. This was done by creating three helper methods:
 
