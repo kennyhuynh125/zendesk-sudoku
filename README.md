@@ -38,7 +38,8 @@ There are five buttons:
  - `Solve Board` - Uses the `solve()` function that modifies the `board` state with the correct solution.
  - `Check Current Board` - Uses the `checkCurrentBoard()` function and checks the state of the current board to see whether it is valid or invalid. 
  - `Check Whole Board` - Uses the `checkBoard()` function and checks to see if the board is completed or not. If it is completed, it determines whether the board is valid or invalid.
- Both `Check Current Board` and `Check Whole Board` uses the `check()` method to determine whether the state of the board is valid or invalid.
+ 
+Both `Check Current Board` and `Check Whole Board` uses the `check()` method to determine whether the state of the board is valid or invalid.
 
 To determine if a board is valid or invalid, we check each row, column, and 3x3 square and see if there are any duplicate digits. This was done by creating three helper methods:
 
