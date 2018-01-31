@@ -14,6 +14,7 @@ The structure is as followed:
 This program takes advantage of React's ability to store data in states and ability to create objects in terms of components. In the src folder, you will find two files, Board.js and Board.css.
 `Board.js` - This is the file that generates the main page of the program. Everything such as the board and buttons are handled in this file.
 `Board.css` - This is the file that creates the CSS to stylize the content being displayed in Board.js.
+The other files are used to render the UI to the front-end.
 
 In `Board.js`, we keep track of two states:
 - `board` - A 9x9 two dimensional array representation of the sudoku board. This is the variable that keeps track of the values in the board. Before starting, the array is filled with zeroes.
@@ -22,6 +23,7 @@ In `Board.js`, we keep track of two states:
 For simplicity, there is only one board with a single solution.
 
 Each square in the board is an `<input>` element. To keep track of the row number and column number, the `input` elements have an attribute `name` that has the value `rowNum, colNum`. For example, the top-left square has the location (0,0). So the name of the input would be `0,0`. To access the grid location to modify the `board` state, a `handleOnChange(event)` function is used to  fetch the values from the `name` and `value` attribute from the `input` element. Then the row and column number is extracted and the value in the `board` array is updated.
+In order to make the default values uneditable in the UI, they are set as `String` values in the board and are checked. If it is a `String`, the attribute `readonly` is inserted in to the `input` element.
 
 To display the UI, there are three functions:
 
@@ -34,8 +36,9 @@ There are five buttons:
  - `Start` - Uses the `setupBoard()` function and creates a prefilled sudoku board by populating the `board` state with some values.
  - `Restart` - Uses the `restart()` function that resets the board to the state when the user started.
  - `Solve Board` - Uses the `solve()` function that modifies the `board` state with the correct solution.
- - `Check Current Board` - Uses the `check()` function and checks the state of the current board to see whether it is valid or invalid. 
+ - `Check Current Board` - Uses the `checkCurrentBoard()` function and checks the state of the current board to see whether it is valid or invalid. 
  - `Check Whole Board` - Uses the `checkBoard()` function and checks to see if the board is completed or not. If it is completed, it determines whether the board is valid or invalid.
+ Both `Check Current Board` and `Check Whole Board` uses the `check()` method to determine whether the state of the board is valid or invalid.
 
 To determine if a board is valid or invalid, we check each row, column, and 3x3 square and see if there are any duplicate digits. This was done by creating three helper methods:
 

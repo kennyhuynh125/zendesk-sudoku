@@ -5,44 +5,36 @@ class Board extends React.Component {
 		super(props);
 		//current state of board is just all 0's.
 		this.state = {
-			board: [
-			[0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0,]],
+			board: [[],[],[],[],[],[],[],[],[]],
 			hasStarted: false,
 		}
+		this.check = this.check.bind(this);
+		this.checkBoard = this.checkBoard.bind(this);
+		this.checkColumns = this.checkColumns.bind(this);
+		this.checkCurrentBoard = this.checkCurrentBoard.bind(this);
+		this.checkRows = this.checkRows.bind(this);
+		this.displayBoard = this.displayBoard.bind(this);
+		this.displayButtons = this.displayButtons.bind(this);
+		this.displayRow = this.displayRow.bind(this);
+		this.handleOnChange = this.handleOnChange.bind(this);
+		this.restart = this.restart.bind(this);
 		this.setupBoard = this.setupBoard.bind(this);
 		this.solve = this.solve.bind(this);
-		this.displayRow = this.displayRow.bind(this);
-		this.check = this.check.bind(this);
-		this.restart = this.restart.bind(this);
-		this.displayBoard = this.displayBoard.bind(this);
-		this.handleOnChange = this.handleOnChange.bind(this);
-		this.checkBoard = this.checkBoard.bind(this);
-		this.checkRows = this.checkRows.bind(this);
-		this.checkColumns = this.checkColumns.bind(this);
-		this.displayButtons = this.displayButtons.bind(this);
 	}
 
 	//setup the board with initial squares filled, this is given by the example on the email.
 	setupBoard() {
 		this.setState({
 			board:  [
-			[5,3,0,0,7,0,0,0,0],
-			[6,0,0,1,9,5,0,0,0],
-			[0,9,8,0,0,0,0,6,0],
-			[8,0,0,0,6,0,0,0,3],
-			[4,0,0,8,0,3,0,0,1],
-			[7,0,0,0,2,0,0,0,6],
-			[0,6,0,0,0,0,2,8,0],
-			[0,0,0,4,1,9,0,0,5],
-			[0,0,0,0,8,0,0,7,9,]],
+			['5','3',0,0,'7',0,0,0,0],
+			['6',0,0,'1','9','5',0,0,0],
+			[0,'9','8',0,0,0,0,'6',0],
+			['8',0,0,0,'6',0,0,0,'3'],
+			['4',0,0,'8',0,'3',0,0,'1'],
+			['7',0,0,0,'2',0,0,0,'6'],
+			[0,'6',0,0,0,0,'2','8',0],
+			[0,0,0,'4','1','9',0,0,'5'],
+			[0,0,0,0,'8',0,0,'7','9',]],
 			hasStarted: true
 		});
 	}
@@ -51,32 +43,22 @@ class Board extends React.Component {
 	solve() {		
 		this.setState({
 			board:  [
-			[5,3,4,6,7,8,9,1,2],
-			[6,7,2,1,9,5,3,4,8],
-			[1,9,8,3,4,2,5,6,7],
-			[8,5,9,7,6,1,4,2,3],
-			[4,2,6,8,5,3,7,9,1],
-			[7,1,3,9,2,4,8,5,6],
-			[9,6,1,5,3,7,2,8,4],
-			[2,8,7,4,1,9,6,3,5],
-			[3,4,5,2,8,6,1,7,9,]],
+			['5','3','4','6','7','8','9','1','2'],
+			['6','7','2','1','9','5','3','4','8'],
+			['1','9','8','3','4','2','5','6','7'],
+			['8','5','9','7','6','1','4','2','3'],
+			['4','2','6','8','5','3','7','9','1'],
+			['7','1','3','9','2','4','8','5','6'],
+			['9','6','1','5','3','7','2','8','4'],
+			['2','8','7','4','1','9','6','3','5'],
+			['3','4','5','2','8','6','1','7','9',]],
+			isSolved: true
 		});
 	}
 
 	//if user clicks restart, board should go back to state when it was setup
 	restart() {
-		this.setState({
-			board:  [
-			[5,3,0,0,7,0,0,0,0],
-			[6,0,0,1,9,5,0,0,0],
-			[0,9,8,0,0,0,0,6,0],
-			[8,0,0,0,6,0,0,0,3],
-			[4,0,0,8,0,3,0,0,1],
-			[7,0,0,0,2,0,0,0,6],
-			[0,6,0,0,0,0,2,8,0],
-			[0,0,0,4,1,9,0,0,5],
-			[0,0,0,0,8,0,0,7,9,]]
-		});
+		this.setupBoard();
 	}
 
 	//checks to see if the board is successfully completed
@@ -87,22 +69,12 @@ class Board extends React.Component {
 				return;
 			}
 		}
-		let correctRows = this.checkRows();
-		let correctCols = this.checkColumns();
-		let correctSquares = [];
-		for (let i = 0; i < 9; i+=3) {
-			correctSquares.push(this.checkSquares(i,0));
-			correctSquares.push(this.checkSquares(i,3));
-			correctSquares.push(this.checkSquares(i,6));
-		}
-		if (!correctRows || !correctCols || correctSquares.includes(false)) {
-			alert("Invalid board. A row, column, or square has duplicate digits.");
-			return;
-		}
-		alert("VALID. Congratulations! You have completed the puzzle!");
-		return;
+		this.check() ? (alert("Congratulations! You have completed the board."), this.setState({isSolved: true})) : alert("Board is invalid");
 	}
 
+	checkCurrentBoard() {
+		this.check() ? alert("Current Board is valid.") : alert("Current Board is invalid.");
+	}
 	//check to see if the current status of the board is valid or not.
 	check() {
 		let correctRows = this.checkRows();
@@ -113,12 +85,7 @@ class Board extends React.Component {
 			correctSquares.push(this.checkSquares(i,3));
 			correctSquares.push(this.checkSquares(i,6));
 		}
-		if (!correctRows || !correctCols || correctSquares.includes(false)) {
-			alert("Invalid board. A row, column, or square has duplicate digits.");
-			return;
-		}
-		alert("Current board is valid.")
-		return;
+		return !correctRows || !correctCols || correctSquares.includes(false) ? false : true;
 	}
 
 	//checks each of the rows in the board and determines if there is an invalid row or not.
@@ -126,16 +93,17 @@ class Board extends React.Component {
 		let digitCount = {};
 		for (let i = 0; i < 9; i++) {
 			for (let j = 0; j < 9; j++) {
-				if (this.state.board[i][j] === 0) {
+				let currentValue = parseInt(this.state.board[i][j], 10);
+				if (currentValue === 0) {
 					continue;
 				}
-				if (this.state.board[i][j] in digitCount) {
-					digitCount[this.state.board[i][j]]++;
-					if (digitCount[this.state.board[i][j]] > 1) {
+				if (currentValue in digitCount) {
+					digitCount[currentValue]++;
+					if (digitCount[currentValue] > 1) {
 						return false;
 					}
 				} else {
-					digitCount[this.state.board[i][j]] = 1;
+					digitCount[currentValue] = 1;
 				}
 			}
 			digitCount = {};
@@ -148,16 +116,17 @@ class Board extends React.Component {
 		let digitCount = {};
 		for (let i = 0; i < 9; i++) {
 			for (let j = 0; j < 9; j++) {
-				if (this.state.board[j][i] === 0) {
+				let currentValue = parseInt(this.state.board[j][i], 10);
+				if (currentValue === 0) {
 					continue;
 				}
-				if (this.state.board[j][i] in digitCount) {
-					digitCount[this.state.board[j][i]]++;
-					if (digitCount[this.state.board[j][i]] > 1) {
+				if (currentValue in digitCount) {
+					digitCount[currentValue]++;
+					if (digitCount[currentValue] > 1) {
 						return false;
 					}
 				} else {
-					digitCount[this.state.board[j][i]] = 1;
+					digitCount[currentValue] = 1;
 				}
 			}
 			digitCount = {};
@@ -170,16 +139,17 @@ class Board extends React.Component {
 		let digitCount = {};
 		for (let i = rowNum; i < rowNum + 3; i++) {
 			for (let j = colNum; j < colNum + 3; j++) {
-				if (this.state.board[i][j] === 0) {
+				let currentValue = parseInt(this.state.board[i][j], 10);
+				if (currentValue === 0) {
 					continue;
 				}
-				if (this.state.board[i][j] in digitCount) {
-					digitCount[this.state.board[i][j]]++;
-					if (digitCount[this.state.board[i][j]] > 1) {
+				if (currentValue in digitCount) {
+					digitCount[currentValue]++;
+					if (digitCount[currentValue] > 1) {
 						return false;
 					}
 				} else {
-					digitCount[this.state.board[i][j]] = 1;
+					digitCount[currentValue] = 1;
 				}
 			}
 		}
@@ -188,7 +158,7 @@ class Board extends React.Component {
 
 	//used to track down when one of the square's value is changed. If it is changed, the array gets updated with the new value.
 	handleOnChange(event) {
-		let value = parseInt(event.target.value);
+		let value = parseInt(event.target.value, 10);
 		let currentBoard = this.state.board;
 		let gridValues = event.target.name;
 		let row = gridValues.split(",")[0];
@@ -221,8 +191,11 @@ class Board extends React.Component {
 			//if the value at the current grid location is 0, just leave the input value blank.
 			if (this.state.board[rowNum][i] === 0) {
 				squares.push(<input type="number" min="0" max="9" className='square' value="" onChange={this.handleOnChange} name={"" + rowNum + "," + i}/>);
-			} else {
-				squares.push(<input type="number" min="0" max="9" className='square' value={this.state.board[rowNum][i]} onChange={this.handleOnChange} name={"" + rowNum + "," + i} />)
+			} else if (typeof this.state.board[rowNum][i] === 'string') {
+				squares.push(<input type="number" min="0" max="9" className='square' value={this.state.board[rowNum][i]} readonly="true" />);
+			}
+			else {
+				squares.push(<input type="number" min="0" max="9" className='square' value={this.state.board[rowNum][i]} onChange={this.handleOnChange} name={"" + rowNum + "," + i} />);
 			}
 		}
 		return squares;
@@ -241,7 +214,7 @@ class Board extends React.Component {
 			buttons = (
 				<div>
 					<div className="buttons">
-						<button onClick={this.check}>Check Current Board</button>
+						<button onClick={this.checkCurrentBoard}>Check Current Board</button>
 						<button onClick={this.checkBoard}>Check Whole Board</button>
 					</div>
 					<div className="buttons">
